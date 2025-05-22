@@ -1,0 +1,64 @@
+CREATE TABLE IF NOT EXISTS `Note` (
+	`id` integer primary key NOT NULL UNIQUE,
+	`record` REAL NOT NULL,
+	`matiere` TEXT NOT NULL,
+FOREIGN KEY(`matiere`) REFERENCES `Matiere`(`titre`)
+);
+CREATE TABLE IF NOT EXISTS `Matiere` (
+	`titre` TEXT NOT NULL UNIQUE,
+	`ue` INTEGER,
+	`prof` INTEGER,
+FOREIGN KEY(`ue`) REFERENCES `UE`(`id`),
+FOREIGN KEY(`prof`) REFERENCES `Prof`(`id`)
+);
+CREATE TABLE IF NOT EXISTS `Prof` (
+	`id` integer primary key NOT NULL UNIQUE,
+	`nom` TEXT NOT NULL,
+	`email` TEXT,
+	`telephone` TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `UE` (
+	`id` integer primary key NOT NULL UNIQUE,
+	`titre` INTEGER NOT NULL,
+	`periode` TEXT NOT NULL,
+	`formation` INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS `Formation` (
+	`id` integer primary key NOT NULL UNIQUE,
+	`titre` INTEGER NOT NULL,
+	`ecole` TEXT NOT NULL,
+	`ue` INTEGER,
+FOREIGN KEY(`ue`) REFERENCES `UE`(`id`)
+);
+CREATE TABLE IF NOT EXISTS `Shedule` (
+	`id` integer primary key NOT NULL UNIQUE,
+	`titre` INTEGER NOT NULL,
+	`matiere` TEXT NOT NULL,
+	`jour` INTEGER NOT NULL,
+	`heure` INTEGER NOT NULL,
+	`salle` INTEGER NOT NULL,
+FOREIGN KEY(`matiere`) REFERENCES `Matiere`(`titre`)
+);
+CREATE TABLE IF NOT EXISTS `User` (
+	`code` INTEGER NOT NULL UNIQUE,
+	`nom` TEXT NOT NULL,
+	`ddn` TEXT,
+	`formation` INTEGER,
+FOREIGN KEY(`formation`) REFERENCES `Formation`(`id`)
+);
+CREATE TABLE IF NOT EXISTS `Evenement` (
+	`id` integer primary key NOT NULL UNIQUE,
+	`titre` TEXT NOT NULL,
+	`type` TEXT NOT NULL,
+	`date` TEXT NOT NULL,
+	`heure` TEXT NOT NULL,
+	`domain` INTEGER,
+FOREIGN KEY(`domain`) REFERENCES `Matiere`(`titre`)
+);
+CREATE TABLE IF NOT EXISTS `Carnet` (
+	`id` integer primary key NOT NULL UNIQUE,
+	`titre` TEXT NOT NULL,
+	`content` TEXT NOT NULL,
+	`matiere` TEXT,
+FOREIGN KEY(`matiere`) REFERENCES `Matiere`(`titre`)
+);
